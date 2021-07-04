@@ -1,6 +1,8 @@
 import pandas as pd
 from copy import deepcopy
-
+from src.constants import (
+    BOTH_MATCH_POINT,ONE_MATCH_POINT,NO_MATCH_POINT
+    )
 class Controller:
     def __init__(self,**kwargs) -> None:
         """
@@ -34,21 +36,21 @@ class Controller:
             flag = True
             for ind,com in enumerate(tempvalues):
                 if stu[0] == com[0] and stu[1] == com[1] and flag:
-                    temp.append(100)
+                    temp.append(BOTH_MATCH_POINT)
                     tempvalues.pop(ind)
                     flag = False
                 elif stu[0] == com[0] or stu[1] == com[1] and flag:
-                    temp.append(50)
+                    temp.append(ONE_MATCH_POINT)
                     flag = False
                     tempvalues.pop(ind)
                 elif stu[0] != com[0] and stu[1] != com[1] and flag:
-                    temp.append(0)
+                    temp.append(NO_MATCH_POINT)
                     flag = False
                     tempvalues.pop(ind)
-            if flag: temp.append(50)
+            if flag: temp.append(ONE_MATCH_POINT)
         studf['score'] = temp
         comdf['score'] = temp[:len(comdf)]
-        if len(comdf[comdf['score'] <=50]) > 0:
-            studf[studf['score'] <=50] = comdf[comdf['score'] <=50]
+        if len(comdf[comdf['score'] <=ONE_MATCH_POINT]) > 0:
+            studf[studf['score'] <=ONE_MATCH_POINT] = comdf[comdf['score'] <=50]
         print('\n Priority List \n')
         print(studf)
